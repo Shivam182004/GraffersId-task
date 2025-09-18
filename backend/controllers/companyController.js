@@ -1,5 +1,6 @@
 const Company = require("../models/Company");
 const Review = require("../models/Review");
+const cloudinary = require("../config/cloudinary");
 
 // @desc List companies with review count & average rating
 exports.getCompanies = async (req, res) => {
@@ -41,17 +42,28 @@ exports.getCompanies = async (req, res) => {
   }
 };
 
-// @desc Add new company
+// @desc Add new company with logo upload to Cloudinary
 exports.addCompany = async (req, res) => {
   try {
-    const { name, location, foundedOn, city, logo, description } = req.body;
+    const { name, location, foundedOn, city, description } = req.body;
+
+    let logoUrl = "";
+    if (req.file) {
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        folder: "companies",
+         resource_type: "image",     
+    type: "upload",              
+    access_mode: "public", 
+      });
+      logoUrl = result.secure_url;
+    }
 
     const company = await Company.create({
       name,
       location,
       foundedOn,
       city,
-      logo,
+      logo: logoUrl,
       description,
     });
 
@@ -60,6 +72,29 @@ exports.addCompany = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+
+
+
+// @desc Add new company
+// exports.addCompany = async (req, res) => {
+//   try {
+//     const { name, location, foundedOn, city, logo, description } = req.body;
+
+//     const company = await Company.create({
+//       name,
+//       location,
+//       foundedOn,
+//       city,
+//       logo,
+//       description,
+//     });
+
+//     res.status(201).json({ success: true, data: company });
+//   } catch (error) {
+//     res.status(500).json({ success: false, message: error.message });
+//   }
+// };
 
 // @desc List companies with search & filter
 // exports.getCompanies = async (req, res) => {
