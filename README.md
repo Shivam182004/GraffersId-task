@@ -65,3 +65,5 @@ npm run dev
 -> Start backend first
 -> Then start frontend
 ```
+
+Regardless if you have any query you can connect me for further!
