@@ -27,6 +27,7 @@ npm install
 ```
 
 ### 4. Environment Variables
+### Note: ENV WITH CREDETNIAL IS SHARED ON MAIL ONLY PLEASE PASTE FORM THERE!  
 ```bash
 PORT=5000
 MONGO_URI=<your-mongodb-uri>
