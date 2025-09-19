@@ -13,8 +13,7 @@ It also integrates **Cloudinary** to save and optimize company **logo images**.
 
 ### 1. Clone the repository
 ```bash
-git clone <your-repo-url>
-cd <your-repo-name>
+git clone [<your-repo-url>](https://github.com/Shivam182004/GraffersId-task.git)
 ```
 
 ## 🛠 Backend Setup
