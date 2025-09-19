@@ -48,3 +48,16 @@ export const getAllCompanies = async () => {
 
   return response.json();
 };
+
+export const getCompanyById = async (id: string) => {
+  const response = await fetch(`${API_BASE}/companies/${id}`, {
+    method: "GET",
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch company");
+  }
+
+  return response.json();
+};
+

@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import HomePage from './pages/HomePage';
+import ReviewPage from './pages/ReviewPage';
+
 
 function App() {
   return (
@@ -8,7 +10,8 @@ function App() {
       <div className="App">
         <Routes>
           <Route path="/" element={<HomePage />} />
-          {/* You can add more routes here later */}
+          <Route path="/reviews/:companyId" element={<ReviewPage />} />
+          
         </Routes>
       </div>
     </Router>

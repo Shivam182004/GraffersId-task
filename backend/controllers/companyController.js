@@ -3,39 +3,70 @@ const Review = require("../models/Review");
 const cloudinary = require("../config/cloudinary");
 
 // @desc List companies with review count & average rating
-exports.getCompanies = async (req, res) => {
+  exports.getCompanies = async (req, res) => {
+    try {
+      const { search, city } = req.query;
+
+      let query = {};
+      if (search) query.name = { $regex: search, $options: "i" };
+      if (city) query.city = city;
+
+      const companies = await Company.find(query).sort({ createdAt: -1 });
+
+      // Attach review stats for each company
+      const companiesWithStats = await Promise.all(
+        companies.map(async (company) => {
+          const reviews = await Review.find({ company: company._id });
+
+          const reviewCount = reviews.length;
+          const averageRating =
+            reviewCount > 0
+              ? reviews.reduce((acc, r) => acc + r.rating, 0) / reviewCount
+              : 0;
+
+          return {
+            ...company.toObject(),
+            reviewCount,
+            averageRating: Number(averageRating.toFixed(1)),
+          };
+        })
+      );
+
+      res.json({
+        success: true,
+        count: companiesWithStats.length,
+        data: companiesWithStats,
+      });
+    } catch (error) {
+      res.status(500).json({ success: false, message: error.message });
+    }
+  }
+
+// @desc Get single company by ID with review count & average rating
+exports.getCompanyById = async (req, res) => {
   try {
-    const { search, city } = req.query;
+    const companyId = req.params.id;
 
-    let query = {};
-    if (search) query.name = { $regex: search, $options: "i" };
-    if (city) query.city = city;
+    const company = await Company.findById(companyId);
+    if (!company) {
+      return res.status(404).json({ success: false, message: "Company not found" });
+    }
 
-    const companies = await Company.find(query).sort({ createdAt: -1 });
+    const reviews = await Review.find({ company: company._id });
 
-    // Attach review stats for each company
-    const companiesWithStats = await Promise.all(
-      companies.map(async (company) => {
-        const reviews = await Review.find({ company: company._id });
-
-        const reviewCount = reviews.length;
-        const averageRating =
-          reviewCount > 0
-            ? reviews.reduce((acc, r) => acc + r.rating, 0) / reviewCount
-            : 0;
-
-        return {
-          ...company.toObject(),
-          reviewCount,
-          averageRating: Number(averageRating.toFixed(1)),
-        };
-      })
-    );
+    const reviewCount = reviews.length;
+    const averageRating =
+      reviewCount > 0
+        ? reviews.reduce((acc, r) => acc + r.rating, 0) / reviewCount
+        : 0;
 
     res.json({
       success: true,
-      count: companiesWithStats.length,
-      data: companiesWithStats,
+      data: {
+        ...company.toObject(),
+        reviewCount,
+        averageRating: Number(averageRating.toFixed(1)),
+      },
     });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
