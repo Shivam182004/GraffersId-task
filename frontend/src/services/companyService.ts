@@ -37,8 +37,8 @@ export const addCompany = async (companyData: CompanyFormData) => {
 };
 
 // ✅ Get all companies
-export const getAllCompanies = async () => {
-  const response = await fetch(`${API_BASE}/companies`, {
+export const getAllCompanies = async (queryParam: string = "") => {
+  const response = await fetch(`${API_BASE}/companies${queryParam}`, {
     method: "GET",
   });
 
@@ -48,6 +48,7 @@ export const getAllCompanies = async () => {
 
   return response.json();
 };
+
 
 export const getCompanyById = async (id: string) => {
   const response = await fetch(`${API_BASE}/companies/${id}`, {

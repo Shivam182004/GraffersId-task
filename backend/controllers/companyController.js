@@ -9,7 +9,7 @@ const cloudinary = require("../config/cloudinary");
 
       let query = {};
       if (search) query.name = { $regex: search, $options: "i" };
-      if (city) query.city = city;
+      if (city) query.city = { $regex: `^${city}$`, $options: "i" }; 
 
       const companies = await Company.find(query).sort({ createdAt: -1 });
 
