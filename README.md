@@ -31,6 +31,9 @@ npm install
 PORT=5000
 MONGO_URI=<your-mongodb-uri>
 JWT_SECRET=<your-secret-key>
+CLOUDINARY_API_KEY=<your-cloudinary-api-key>
+CLOUDINARY_API_SECRET=<your-cloudinary-api-secret>
+CLOUDINARY_CLOUD_NAME=<your-cloudinary-cloud-name>
 ```
 ### 5. Start backend
 ```bash
@@ -48,13 +51,7 @@ cd frontend
 npm install
 ```
 
-### 8. Environment Variables
-Create a .env file inside the frontend folder.
-Use the credentials from the attached docs.
-```bash
-VITE_API_BASE_URL=http://localhost:5000
-```
-### 9. Start frontend
+### 8. Start frontend
 ```bash
 npm run dev
 ```
