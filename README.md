@@ -2,7 +2,12 @@
 
 This project is a **MERN stack application** with a backend (Node.js + Express + MongoDB) and a frontend (React + TypeScript + Tailwind).  
 Follow the steps below to set up and run the project locally.
+It also integrates **Cloudinary** to save and optimize company **logo images**.
 
+## 📽️ Demo Video  
+👉 [Watch the Loom Walkthrough](https://www.loom.com/share/180bbaa7cc324bd8b7dc1b4fede8717a?sid=77fad960-a111-4d8c-a12b-eef0a5155c3c)
+
+---
 ## 🚀 Getting Started
 
 
